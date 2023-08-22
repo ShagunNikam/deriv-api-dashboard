@@ -1,0 +1,31 @@
+<div class="table_data">
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Name <i class="bi bi-arrow-down-up"></i></th>
+                <th>Last Price <i class="bi bi-arrow-down-up"></i></th>
+                <th>24h change <i class="bi bi-arrow-down-up"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of tradingData">
+                <td class="data">{{item.display_name}}</td>
+                <td class="data">{{item.pip}}</td>
+                <td class="data">+{{item.change_value}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- <button (click)="sendMsg()">Send Message</button> -->
+</div>
+
+
+<!-- <div class="data_wrapper" *ngFor="let item of forexData">
+    <div class="data">{{item.display_name}}</div>
+    <div class="data">{{item.pip}}</div>
+    <div class="data">+{{item.change_value}}</div>
+    <div class="data">{{item.market}}</div>
+    <div class="btn_wrap">
+        <button class="trade_btn">Trade</button>
+    </div>
+</div> -->
