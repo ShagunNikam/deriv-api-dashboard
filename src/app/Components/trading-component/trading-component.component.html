@@ -8,11 +8,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of tradingData">
+            {{response}}
+            <!-- <tr *ngFor="let item of response.active_symbols">
                 <td class="data">{{item.display_name}}</td>
                 <td class="data">{{item.pip}}</td>
                 <td class="data">+{{item.change_value}}</td>
-            </tr>
+            </tr> -->
         </tbody>
     </table>
 

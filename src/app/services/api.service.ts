@@ -24,7 +24,7 @@ export class ApiService {
   public messages: any;
 
   constructor(private http: HttpClient, wsService: WebsocketService) {
-  this.messages = wsService.connect(API_URL);
+  // this.messages = wsService.connect(API_URL);
   this.listenForEvents();
   this.onMessage(null, 'test');
 

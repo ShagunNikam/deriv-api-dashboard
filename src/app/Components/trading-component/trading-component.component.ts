@@ -1,51 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from 'src/app/services/api.service';
 import { WebsocketService } from "src/app/services/websocket.service";
-
 
 @Component({
   selector: 'app-trading-component',
   templateUrl: './trading-component.component.html',
   styleUrls: ['./trading-component.component.scss']
 })
+
 export class TradingComponent implements OnInit {
   public response: any;
+  public activeData : any = []
 
-  tradingData : Array<any> = [];
-
-  constructor(private api: ApiService) { 
-    // api.messages.subscribe(msg => {
-    //   console.log('Response from websocket' + msg);
-    // })
+  public active_symbols : Object = {
+    "active_symbols": "full", 
+    "product_type": "basic"
   }
 
-  // private message = {
-  //   author: "tutorialedge",
-  //   message: "this is a test message"
-  // }
+  public tickHistory: Object = {
+    "ticks_history": "R_50",
+      "adjust_start_time": 1,
+      "count": 10,
+      "end": "latest",
+      "start": 1,
+      "style": "ticks"
+  }
+  public ticks : Object = {
+    "ticks": "R_50",
+    "subscribe": 1
+  }
 
-  // sendMsg() {
-  //   console.log("new message from client to websocket: ", this.message);
-  //   this.api.messages.next(this.message);
-  //   this.message.message = "";
-  // }
+  // tradingData : Array<any> = [];
+
+  // private api: WebsocketService;
+
+  constructor(private api: WebsocketService) {
+    // this.api = apix;
+    // this.api.getActiveSymbols();
+    // this.api.getTickHistory();
+    // this.api.getTicks();
+    
+  }
 
   ngOnInit(): void {
-    this.getData()
+    this.api.getActiveSymbols(this.active_symbols);
+    this.api.getTickHistory(this.tickHistory);
+    this.api.getTicks(this.ticks);
+    // this.activeData = this.response.active_symbols
+    
+    // console.log('data from service:', + this.response);
+    // console.log('data from service:', + this.api.getTickHistory());
+    // console.log('data from service:', + this.api.getTicks());
   }
-
-  getData() {
-    this.api.messages.subscribe((msg:any) => {
-      this.response = msg;
-      console.log('Response from websocket' + msg);
-    })
-    // this.api.get().subscribe((res: any) => {
-    //   this.response = res.active_symbols;
-    //   this.tradingData = this.response.filter((e: any )=> {
-    //     return e.market === 'forex'
-    //   })
-    // });
-  }
-
 
 }

@@ -1,42 +1,32 @@
 import { Injectable } from "@angular/core";
+import { webSocket } from 'rxjs/webSocket';
 import * as Rx from "rxjs";
 
 @Injectable()
 export class WebsocketService {
-  constructor() {}
 
-  private subject: Rx.Subject<MessageEvent>;
+  private sub: Rx.Subject<any>;
 
-  public connect(url:any): Rx.Subject<MessageEvent> {
-    if (!this.subject) {
-      this.subject = this.create(url);
-      console.log("Successfully connected: " + url);
-    }
-    return this.subject;
+  constructor() {
+    console.log("Connecting to socket")
+    const APP_URL = "wss://ws.binaryws.com/websockets/v3?app_id=1086";
+    this.sub = webSocket(APP_URL);
+    this.sub.subscribe(
+      (res) => console.log('****',res),
+      (err) => console.log(err),
+      () => console.log("Connection Opened")
+    )
   }
 
-  private create(url:any): Rx.Subject<MessageEvent> {
-    let ws = new WebSocket(url);
-    // ws.onopen = function(e) {
-    //   alert("[open] Connection established");
-    //   alert(ws.readyState === WebSocket.OPEN)
-    // };
+  getActiveSymbols(value: any) {
+    this.sub.next(value);
+  }
 
-    let observable = Rx.Observable.create((obs: Rx.Observer<MessageEvent>, e : any) => {
-      ws.onopen = obs.next.bind(obs, e);
-      ws.onmessage = obs.next.bind(obs);
-      ws.onerror = obs.error.bind(obs);
-      ws.onclose = obs.complete.bind(obs);
-      return ws.close.bind(ws);
-    });
-    let observer = {
-      next: (data: Object) => {
-        console.log(ws.readyState === WebSocket.OPEN)
-        if (ws.readyState === WebSocket.OPEN) {
-          ws.send(JSON.stringify(data));
-        }
-      }
-    };
-    return Rx.Subject.create(observer, observable);
+  getTickHistory(value:any) {
+    this.sub.next(value);
+  }
+
+  getTicks(value:any) {
+    this.sub.next(value);
   }
 }
